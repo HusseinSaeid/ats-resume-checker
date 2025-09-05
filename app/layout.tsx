@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Script from "next/script";
-import Init from "@/components/Init";
+import Ini from "@/components/Ini";
 
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
@@ -31,7 +31,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Script src="https://js.puter.com/v2/"></Script>
-        <Init />
+        <Ini />
 
         {children}
       </body>
