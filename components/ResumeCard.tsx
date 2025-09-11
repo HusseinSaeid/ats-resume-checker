@@ -5,7 +5,7 @@ export default function ResumeCard({ resume }: { resume: Resume }) {
   return (
     <Link
       href={`/resume/${resume.id}`}
-      className="resume-card animate-in fade-in duration-1000"
+      className="resume-card bg-white/60 backdrop-blur-md shadow-sm animate-in fade-in duration-1000"
     >
       <div className="resume-card-header">
         <div className="flex flex-row md:flex-col gap-2">
@@ -27,7 +27,7 @@ export default function ResumeCard({ resume }: { resume: Resume }) {
             alt="resume"
             width={500}
             height={500}
-            className="w-full h-[350px] max-sm:-[200px] object-cover object-top"
+            className="w-full h-[350px] max-sm:h-[200px] object-cover object-top"
           />
         </div>
       </div>
