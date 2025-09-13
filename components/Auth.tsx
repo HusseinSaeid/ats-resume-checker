@@ -14,7 +14,6 @@ export default function Auth() {
       router.push(next);
     }
   }, [auth.isAuthenticated, next, router]);
-
   return (
     <div>
       {isLoading ? (

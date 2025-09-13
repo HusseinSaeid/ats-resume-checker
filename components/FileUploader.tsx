@@ -32,13 +32,13 @@ export default function FileUploader({ onFileSelect }: FileUploaderProps) {
   const file = files[0] || null;
 
   return (
-    <div className="w-full gradient-border text-black">
+    <div className="w-full gradient-border backdrop-blur-md shadow-sm text-black">
       <div {...getRootProps()}>
         <input {...getInputProps()} />
-        <div className="space-y-4 cursor-pointer">
+        <div className="space-y-4 cursor-pointer ">
           {file ? (
             <div
-              className="flex items-center justify-between p-4 border rounded-lg"
+              className="flex items-center justify-between p-4 bg-white/60 backdrop-blur-md shadow-sm rounded-lg "
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex items-center space-x-4">
@@ -53,7 +53,7 @@ export default function FileUploader({ onFileSelect }: FileUploaderProps) {
                 </div>
               </div>
               <button
-                className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                className="p-2 cursor-pointer hover:bg-gray-100 bg-white/60 backdrop-blur-md shadow-sm rounded-full transition-colors"
                 onClick={(e) => {
                   e.stopPropagation();
                   setFiles([]);
@@ -64,12 +64,13 @@ export default function FileUploader({ onFileSelect }: FileUploaderProps) {
               </button>
             </div>
           ) : (
-            <div className="text-center p-8">
-              <div className="mx-auto flex items-center justify-center mb-4">
+            <div className="text-center p-8 ">
+              <div className="mx-auto flex items-center justify-center mb-4 ">
                 <FaFileUpload className="text-6xl text-gray-400" />
               </div>
               <p className="text-lg text-gray-700 mb-2">
-                <span className="font-medium">Click to Upload</span> or Drag & Drop
+                <span className="font-medium">Click to Upload</span> or Drag &
+                Drop
               </p>
               <p className="text-sm text-gray-500">PDF Max Size: 20MB</p>
             </div>

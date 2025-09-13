@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import FileUploader from "./FileUploader";
 import { usePuterStore } from "@/lib/puter";
@@ -17,6 +18,7 @@ type AIResponse = {
   };
 };
 export default function UploadComponent() {
+  const router = useRouter();
   const { fs, ai, kv } = usePuterStore();
   const [file, setFile] = useState<File | null>(null);
   const [statusText, setStatusText] = useState<string>("");
@@ -35,73 +37,90 @@ export default function UploadComponent() {
     jobDescription: string;
     file: File;
   }) => {
-    setScanning(true);
-    setStatusText("Uploading resume...");
-    const uploadFile = await fs.upload([file]);
-    if (!uploadFile) {
-      setStatusText("Failed to upload resume.");
-      setScanning(false);
-      return;
-    }
-    setStatusText("converting to Image...");
-    const imageFile = await convertPdfToImage(file);
-    if (!imageFile.file)
-      return setStatusText("Failed to convert PDF to image.");
-    setStatusText("Uploading the Image...");
-    const uploadImage = await fs.upload([imageFile.file]);
-    if (!uploadImage) {
-      setStatusText("Failed to upload image.");
-      setScanning(false);
-      return;
-    }
-    setStatusText("Working on data...");
-    const uuid = generateUUID();
-    interface StoredResume {
-      id: string;
-      resumepath: string;
-      imagepath: string;
-      companyName: string;
-      jobTitle: string;
-      jobDescription: string;
-      feedBack: unknown;
-    }
-    const data: StoredResume = {
-      id: uuid,
-      resumepath: uploadFile.path,
-      imagepath: uploadImage.path,
-      companyName,
-      jobTitle,
-      jobDescription,
-      feedBack: "",
-    };
-    await kv.set(`resume-${uuid}`, JSON.stringify(data));
-    setStatusText("Analyzing resume...");
-    const feedBack = (await ai.feedback(
-      uploadFile.path,
-      prepareInstructions({
-        jobTitle: jobTitle as string,
-        jobDescription: jobDescription as string,
-        AIResponseFormat,
-      })
-    )) as AIResponse | undefined;
-    if (!feedBack) return setStatusText("Failed to analyze resume.");
-    const feedbackContent = feedBack.message.content;
-    let feedbackText = "";
-    if (typeof feedbackContent === "string") {
-      feedbackText = feedbackContent;
-    } else {
-      const textItem = (feedbackContent as ChatMessageContent[]).find(
-        (c) => c.type === "text"
-      );
-      feedbackText = textItem?.text ?? "";
-    }
     try {
-      data.feedBack = JSON.parse(feedbackText) as unknown;
-    } catch {
-      data.feedBack = feedbackText as unknown;
+      setScanning(true);
+      setStatusText("Uploading resume...");
+      const uploadFile = await fs.upload([file]);
+      if (!uploadFile) {
+        setStatusText("Failed to upload resume.");
+        setScanning(false);
+        return;
+      }
+      setStatusText("converting to Image...");
+      const imageFile = await convertPdfToImage(file);
+      if (!imageFile.file)
+        return setStatusText("Failed to convert PDF to image.");
+      setStatusText("Uploading the Image...");
+      const uploadImage = await fs.upload([imageFile.file]);
+      if (!uploadImage) {
+        setStatusText("Failed to upload image.");
+        setScanning(false);
+        return;
+      }
+      setStatusText("Working on data...");
+      const uuid = generateUUID();
+      interface StoredResume {
+        id: string;
+        resumePath: string;
+        imagePath: string;
+        companyName: string;
+        jobTitle: string;
+        jobDescription: string;
+        feedback: unknown;
+      }
+      const data: StoredResume = {
+        id: uuid,
+        resumePath: uploadFile.path,
+        imagePath: uploadImage.path,
+        companyName,
+        jobTitle,
+        jobDescription,
+        feedback: "",
+      };
+      await kv.set(`resume:${uuid}`, JSON.stringify(data));
+      setStatusText("Analyzing resume...");
+      const feedBack = (await ai.feedback(
+        uploadFile.path,
+        prepareInstructions({
+          jobTitle: jobTitle as string,
+          jobDescription: jobDescription as string,
+          AIResponseFormat,
+        })
+      )) as AIResponse | undefined;
+      if (!feedBack) return setStatusText("Failed to analyze resume.");
+      const feedbackContent = feedBack.message.content;
+      let feedbackText = "";
+      if (typeof feedbackContent === "string") {
+        feedbackText = feedbackContent;
+      } else {
+        const textItem = (feedbackContent as ChatMessageContent[]).find(
+          (c) => c.type === "text"
+        );
+        feedbackText = textItem?.text ?? "";
+      }
+      try {
+        data.feedback = JSON.parse(feedbackText) as unknown;
+      } catch {
+        data.feedback = feedbackText as unknown;
+      }
+      setStatusText("Saving feedback...");
+
+      // حفظ البيانات المحدثة
+      await kv.set(`resume:${uuid}`, JSON.stringify(data));
+
+      setStatusText("Redirecting...");
+      console.log("Resume analysis completed:", data);
+
+      // إعادة التوجيه إلى صفحة النتائج
+      router.push(`/resume/${uuid}`);
+
+      // إعادة تعيين حالة المسح
+      setScanning(false);
+    } catch (error) {
+      console.error("Error during resume analysis:", error);
+      setStatusText("Analysis failed. Please try again.");
+      setScanning(false);
     }
-    setStatusText("Saving feedback Redireting...");
-    console.log(data);
   };
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
