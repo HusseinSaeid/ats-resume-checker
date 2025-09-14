@@ -42,11 +42,8 @@ Then open 👉 http://localhost:3000
  in your browser.
 ```
 ## 🛠️ Tech Stack
-Next.js
- – React framework for modern web apps
-TypeScript
- – Strongly typed JavaScript
-Tailwind CSS
- – Utility-first styling
+- Next.js
+- TypeScript
+- Tailwind CSS
 Puter.js
  – File parsing , integration and AI Api
