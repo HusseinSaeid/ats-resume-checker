@@ -1,8 +1,11 @@
+import { Suspense } from "react";
 import Auth from "@/components/Auth";
+
 export const metadata = {
   title: "Auth - Resumix",
   description: "Sign in to Resumix",
 };
+
 export default function AuthPage() {
   return (
     <main className="bg-gradient bg-cover min-h-screen flex items-center justify-center p-4">
@@ -21,7 +24,16 @@ export default function AuthPage() {
               </h2>
             </div>
             <div className="space-y-4">
-              <Auth />
+              <Suspense
+                fallback={
+                  <button className="auth-button-new animate-pulse">
+                    <div className="animate-spin text-xl">⏳</div>
+                    <span>Loading...</span>
+                  </button>
+                }
+              >
+                <Auth />
+              </Suspense>
               <div className="text-center">
                 <p className="text-sm text-gray-500">
                   Secure authentication powered by Puter

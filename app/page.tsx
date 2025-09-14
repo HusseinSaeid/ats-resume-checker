@@ -30,7 +30,9 @@ export default function Home() {
 
         // Load all resume data
         const resumePromises = resumeKeys.map(async (key) => {
-          const resumeData = await kv.get(key);
+          // Handle both string keys and KVItem objects
+          const keyString = typeof key === "string" ? key : key.key;
+          const resumeData = await kv.get(keyString);
           if (!resumeData) return null;
 
           const resume = JSON.parse(resumeData);

@@ -4,22 +4,22 @@ export interface PdfConversionResult {
   error?: string;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 let pdfjsLib: any = null;
-let isLoading = false;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 let loadPromise: Promise<any> | null = null;
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function loadPdfJs(): Promise<any> {
   if (pdfjsLib) return pdfjsLib;
   if (loadPromise) return loadPromise;
 
-  isLoading = true;
   // @ts-expect-error - pdfjs-dist/build/pdf.mjs is not a module
   loadPromise = import("pdfjs-dist/build/pdf.mjs").then((lib) => {
     // Use CDN worker to avoid bundling/serving local worker file
     lib.GlobalWorkerOptions.workerSrc =
       "https://unpkg.com/pdfjs-dist@5.4.149/build/pdf.worker.min.mjs";
     pdfjsLib = lib;
-    isLoading = false;
     return lib;
   });
 
