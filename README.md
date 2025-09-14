@@ -41,8 +41,7 @@ npm run dev
 Then open 👉 http://localhost:3000
  in your browser.
 ```
-🛠️ Tech Stack
-
+## 🛠️ Tech Stack
 Next.js
  – React framework for modern web apps
 TypeScript
