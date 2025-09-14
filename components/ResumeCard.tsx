@@ -8,12 +8,12 @@ export default function ResumeCard({ resume }: { resume: Resume }) {
       className="resume-card bg-white/60 backdrop-blur-md shadow-sm animate-in fade-in duration-1000"
     >
       <div className="resume-card-header">
-        <div className="flex flex-row md:flex-col gap-2">
-          <h2 className="text-gray-800 font-bold break-words">
-            {resume.companyName}
+        <div className="flex flex-col gap-1 flex-1">
+          <h2 className="text-xl text-gray-800 font-bold break-words">
+            {resume.companyName || "Company Name"}
           </h2>
           <h3 className="text-lg text-gray-600 break-words font-medium">
-            {resume.jobTitle}
+            {resume.jobTitle || "Job Title"}
           </h3>
         </div>
         <div className="flex-shrink-0">
@@ -23,7 +23,7 @@ export default function ResumeCard({ resume }: { resume: Resume }) {
       <div className="gradient-border animate-in fade-in duration-1000">
         <div className="w-full h-full">
           <Image
-            src={resume.imagePath}
+            src={resume.imageUrl || resume.imagePath}
             alt="resume"
             width={500}
             height={500}

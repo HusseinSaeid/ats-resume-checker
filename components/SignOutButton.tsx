@@ -45,7 +45,7 @@ export default function SignOutButton({
   }
 
   const baseClasses =
-    "flex items-center justify-center gap-2 font-semibold transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2";
+    "flex items-center justify-center gap-2 font-semibold transition-all duration-300 cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2";
 
   const sizeClasses = {
     sm: "px-3 py-1.5 text-sm rounded-lg",

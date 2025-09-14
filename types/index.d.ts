@@ -10,6 +10,7 @@ interface Resume {
   companyName?: string;
   jobTitle?: string;
   imagePath: string;
+  imageUrl?: string; // Added for dynamic image loading
   resumePath: string;
   feedback: Feedback;
 }

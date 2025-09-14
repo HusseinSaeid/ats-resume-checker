@@ -170,6 +170,7 @@ export default function UploadComponent() {
                 name="company-name"
                 placeholder="Enter company name"
                 className="text-black"
+                required
               />
             </div>
             <div className="form-div">
@@ -182,6 +183,7 @@ export default function UploadComponent() {
                 name="job-title"
                 placeholder="Enter job title"
                 className="text-black"
+                required
               />
             </div>
             <div className="form-div">

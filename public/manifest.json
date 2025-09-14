@@ -1,0 +1,23 @@
+{
+  "name": "Resumix - ATS Resume Checker",
+  "short_name": "Resumix",
+  "description": "Make Your CV ATS-Ready in Seconds",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#68D1BF",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icons/ats-good.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/favicon.ico",
+      "sizes": "16x16 32x32 48x48",
+      "type": "image/x-icon"
+    }
+  ]
+}
