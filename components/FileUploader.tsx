@@ -44,10 +44,10 @@ export default function FileUploader({ onFileSelect }: FileUploaderProps) {
               <div className="flex items-center space-x-4">
                 <FaFilePdf className="text-4xl text-gray-400" />
                 <div>
-                  <p className="text-sm font-medium truncate max-w-xs text-gray-800">
+                  <p className="text-sm font-semibold truncate max-w-xs text-gray-800">
                     {file.name}
                   </p>
-                  <p className="text-sm text-gray-500">
+                  <p className="text-sm text-gray-600">
                     {formatSize(file.size)}
                   </p>
                 </div>
@@ -69,10 +69,10 @@ export default function FileUploader({ onFileSelect }: FileUploaderProps) {
                 <FaFileUpload className="text-6xl text-gray-400" />
               </div>
               <p className="text-lg text-gray-700 mb-2">
-                <span className="font-medium">Click to Upload</span> or Drag &
+                <span className="font-semibold">Click to Upload</span> or Drag &
                 Drop
               </p>
-              <p className="text-sm text-gray-500">PDF Max Size: 20MB</p>
+              <p className="text-sm text-gray-600">PDF Max Size: 20MB</p>
             </div>
           )}
         </div>

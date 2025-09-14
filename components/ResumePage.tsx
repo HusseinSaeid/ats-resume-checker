@@ -1,18 +1,18 @@
 "use client";
 
-import { useRouter, useParams, useSearchParams } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { IoMdArrowRoundBack } from "react-icons/io";
+import { ImSpinner2 } from "react-icons/im";
 import { useState, useEffect } from "react";
 import { usePuterStore } from "@/lib/puter";
 import Ats from "./Ats";
 import Summary from "./Summary";
 import Details from "./Details";
+import SignOutButton from "./SignOutButton";
 
 const ResumePage = () => {
-  const searchParams = useSearchParams();
-  const next = searchParams.get("next") || "/";
   const router = useRouter();
 
   const { auth, kv, fs, isLoading } = usePuterStore();
@@ -62,11 +62,12 @@ const ResumePage = () => {
           href="/"
           className="back-button bg-white/60 backdrop-blur-md shadow-sm"
         >
-          <IoMdArrowRoundBack className="text-2xl text-black" />
-          <span className="text-black text-sm font-semibold">
+          <IoMdArrowRoundBack className="text-2xl text-gray-800" />
+          <span className="text-gray-800 text-sm font-semibold">
             Back to Home Page
           </span>
         </Link>
+        <SignOutButton variant="secondary" size="sm" className="ml-auto" />
       </nav>
       <div className="flex flex-row max-lg:flex-col-reverse w-full ">
         <section className="feedback-section bg-gradient bg-cover h-[100vh] sticky top-0 items-center justify-center">
@@ -87,11 +88,11 @@ const ResumePage = () => {
         </section>
 
         <section className="feedback-section bg-white/60 backdrop-blur-md shadow-sm">
-          <h2 className="text-center text-4xl text-black font-bold">
+          <h2 className="text-center text-4xl text-gray-800 font-bold">
             Resume Review
           </h2>
           {feedback ? (
-            <div className="flex flex-col animate-in fade-in duration-1000">
+            <div className="flex flex-col animate-in fade-in duration-1000 gap-8  ">
               <Summary feedback={feedback} />
               <Ats
                 score={feedback.ATS.score || 0}
@@ -100,13 +101,9 @@ const ResumePage = () => {
               <Details feedback={feedback} />
             </div>
           ) : (
-            <Image
-              src="/images/resume-scan-2.gif"
-              alt="Resume scan"
-              width={500}
-              height={500}
-              className="w-full"
-            />
+            <div className="flex justify-center items-center py-16">
+              <ImSpinner2 className="w-20 h-20 text-blue-600 animate-spin" />
+            </div>
           )}
         </section>
       </div>

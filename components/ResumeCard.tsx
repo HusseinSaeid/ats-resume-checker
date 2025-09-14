@@ -9,10 +9,10 @@ export default function ResumeCard({ resume }: { resume: Resume }) {
     >
       <div className="resume-card-header">
         <div className="flex flex-row md:flex-col gap-2">
-          <h2 className="text-black font-bold break-words">
+          <h2 className="text-gray-800 font-bold break-words">
             {resume.companyName}
           </h2>
-          <h3 className="text-lg text-gray-500 break-words">
+          <h3 className="text-lg text-gray-600 break-words font-medium">
             {resume.jobTitle}
           </h3>
         </div>

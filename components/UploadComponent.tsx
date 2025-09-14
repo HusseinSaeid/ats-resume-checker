@@ -1,12 +1,13 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
 import FileUploader from "./FileUploader";
 import { usePuterStore } from "@/lib/puter";
 import { convertPdfToImage } from "@/lib/pdf2img";
 import { generateUUID } from "@/lib/utils";
 import { prepareInstructions, AIResponseFormat } from "@/constants/index";
+import { ImSpinner2 } from "react-icons/im";
+import { useToast } from "./Toast";
 type ChatMessageContent = {
   type: "file" | "text";
   puter_path?: string;
@@ -20,6 +21,7 @@ type AIResponse = {
 export default function UploadComponent() {
   const router = useRouter();
   const { fs, ai, kv } = usePuterStore();
+  const { addToast, ToastContainer } = useToast();
   const [file, setFile] = useState<File | null>(null);
   const [statusText, setStatusText] = useState<string>("");
   const [scanning, setScanning] = useState(false);
@@ -116,8 +118,12 @@ export default function UploadComponent() {
 
       // إعادة تعيين حالة المسح
       setScanning(false);
-    } catch (error) {
-      console.error("Error during resume analysis:", error);
+    } catch {
+      addToast(
+        "Your daily attempts have been exhausted. Please try again tomorrow.",
+        "error",
+        8000
+      );
       setStatusText("Analysis failed. Please try again.");
       setScanning(false);
     }
@@ -134,73 +140,75 @@ export default function UploadComponent() {
     handleAnalyze({ companyName, jobTitle, jobDescription, file });
   };
   return (
-    <div className="scanning-indicator">
-      {scanning ? (
-        <>
-          <h2>{statusText}</h2>
-          <Image
-            src="/images/resume-scan.gif"
-            alt="Loading..."
-            width={500}
-            height={500}
-          />
-        </>
-      ) : (
-        <h2>Get instant feedback powered by AI to improve your CV</h2>
-      )}
-      {!scanning && (
-        <form
-          id="upload-form"
-          onSubmit={handleSubmit}
-          className="flex flex-col gap-4 mt-12 bg-white/60 backdrop-blur-md shadow-sm rounded-2xl p-8"
-        >
-          <div className="form-div">
-            <label htmlFor="company-name" className="pl-4">
-              Company Name
-            </label>
-            <input
-              type="text"
-              id="company-name"
-              name="company-name"
-              placeholder="Enter company name"
-              className="text-black"
-            />
-          </div>
-          <div className="form-div">
-            <label htmlFor="job-title" className="pl-4">
-              Job Title
-            </label>
-            <input
-              type="text"
-              id="job-title"
-              name="job-title"
-              placeholder="Enter job title"
-              className="text-black"
-            />
-          </div>
-          <div className="form-div">
-            <label htmlFor="job-description" className="pl-4">
-              Job Description
-            </label>
-            <textarea
-              rows={5}
-              id="job-description"
-              name="job-description"
-              placeholder="Enter job description"
-              className="text-black resize-none overflow-auto"
-            />
-          </div>
-          <div className="form-div">
-            <label htmlFor="uploader" className="pl-4">
-              Upload Resume{" "}
-            </label>{" "}
-            <FileUploader onFileSelect={handleFileSelect} />
-          </div>
-          <button type="submit" className="primary-button mt-4">
-            Scan Resume
-          </button>
-        </form>
-      )}
-    </div>
+    <>
+      <div className="scanning-indicator">
+        {scanning ? (
+          <>
+            <h2>{statusText}</h2>
+            <div className="flex justify-center items-center py-8">
+              <ImSpinner2 className="w-16 h-16 text-blue-600 animate-spin" />
+            </div>
+          </>
+        ) : (
+          <h2 className="text-gray-800">
+            Get instant feedback powered by AI to improve your CV
+          </h2>
+        )}
+        {!scanning && (
+          <form
+            id="upload-form"
+            onSubmit={handleSubmit}
+            className="flex flex-col gap-4 mt-12 bg-white/60 backdrop-blur-md shadow-sm rounded-2xl p-8"
+          >
+            <div className="form-div">
+              <label htmlFor="company-name" className="pl-4">
+                Company Name
+              </label>
+              <input
+                type="text"
+                id="company-name"
+                name="company-name"
+                placeholder="Enter company name"
+                className="text-black"
+              />
+            </div>
+            <div className="form-div">
+              <label htmlFor="job-title" className="pl-4">
+                Job Title
+              </label>
+              <input
+                type="text"
+                id="job-title"
+                name="job-title"
+                placeholder="Enter job title"
+                className="text-black"
+              />
+            </div>
+            <div className="form-div">
+              <label htmlFor="job-description" className="pl-4">
+                Job Description
+              </label>
+              <textarea
+                rows={5}
+                id="job-description"
+                name="job-description"
+                placeholder="Enter job description"
+                className="text-black resize-none overflow-auto"
+              />
+            </div>
+            <div className="form-div">
+              <label htmlFor="uploader" className="pl-4">
+                Upload Resume{" "}
+              </label>{" "}
+              <FileUploader onFileSelect={handleFileSelect} />
+            </div>
+            <button type="submit" className="primary-button mt-4">
+              Scan Resume
+            </button>
+          </form>
+        )}
+      </div>
+      <ToastContainer />
+    </>
   );
 }

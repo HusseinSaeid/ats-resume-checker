@@ -27,17 +27,33 @@ body {
 @theme {
   --font-sans: "Mona Sans", ui-sans-serif, system-ui, sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  --color-dark-200: #475467;
-  --color-light-blue-100: #c1d3f81a;
-  --color-light-blue-200: #a7bff14d;
 
-  --color-badge-green: #d5faf1;
-  --color-badge-red: #f9e3e2;
-  --color-badge-yellow: #fceed8;
+  /* Enhanced text colors */
+  --color-dark-200: #2d3748;
+  --color-dark-300: #1a202c;
+  --color-gray-600: #4a5568;
+  --color-gray-700: #2d3748;
+  --color-gray-800: #1a202c;
 
-  --color-badge-green-text: #254d4a;
-  --color-badge-red-text: #752522;
-  --color-badge-yellow-text: #73321b;
+  /* Improved light backgrounds */
+  --color-light-blue-100: #e6f3ff;
+  --color-light-blue-200: #cce7ff;
+
+  /* Enhanced badge colors */
+  --color-badge-green: #e6fffa;
+  --color-badge-red: #fed7d7;
+  --color-badge-yellow: #fef5e7;
+
+  /* Better badge text colors */
+  --color-badge-green-text: #1a365d;
+  --color-badge-red-text: #742a2a;
+  --color-badge-yellow-text: #744210;
+
+  /* New accent colors */
+  --color-primary: #3182ce;
+  --color-primary-dark: #2c5282;
+  --color-secondary: #805ad5;
+  --color-accent: #38a169;
 }
 
 html,
@@ -49,22 +65,30 @@ main {
   @apply min-h-screen pt-10;
 }
 h1 {
-  @apply max-sm:text-[3rem] text-6xl  text-gradient leading-tight xl:tracking-[-2px] font-semibold;
+  @apply max-sm:text-[3rem] text-6xl text-gradient leading-tight xl:tracking-[-2px] font-bold;
 }
 
 h2 {
-  @apply max-sm:text-xl text-3xl text-dark-200;
+  @apply max-sm:text-xl text-3xl text-gray-800 font-semibold;
+}
+
+h3 {
+  @apply text-xl text-gray-700 font-medium;
 }
 
 label {
-  @apply text-dark-200;
+  @apply text-gray-700 font-medium;
+}
+
+p {
+  @apply text-gray-600;
 }
 input {
-  @apply w-full p-4 rounded-full focus:outline-none bg-white/60 backdrop-blur-md shadow-sm;
+  @apply w-full p-4 rounded-full focus:outline-none bg-white/60 backdrop-blur-md shadow-sm text-gray-800 placeholder-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300;
 }
 
 textarea {
-  @apply w-full p-4 rounded-2xl focus:outline-none bg-white/60 backdrop-blur-md shadow-sm;
+  @apply w-full p-4 rounded-2xl focus:outline-none bg-white/60 backdrop-blur-md shadow-sm text-gray-800 placeholder-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300;
 }
 
 form {
@@ -73,13 +97,17 @@ form {
 
 @layer components {
   .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-[#AB8C95] via-[#000000] to-[#8E97C5];
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-[#667eea] via-[#764ba2] to-[#f093fb];
   }
   .gradient-border {
     @apply bg-gradient-to-b from-light-blue-100 to-light-blue-200 p-4 rounded-2xl;
   }
+
+  .auth-card {
+    @apply bg-white/95 backdrop-blur-md rounded-3xl p-12 border border-white/20 shadow-2xl;
+  }
   .primary-button {
-    @apply primary-gradient backdrop-blur-md shadow-sm  text-white rounded-full px-4 py-2 cursor-pointer w-full;
+    @apply primary-gradient backdrop-blur-md shadow-sm text-white rounded-full px-4 py-2 cursor-pointer w-full font-semibold transition-all duration-300 hover:shadow-lg;
   }
   .resume-nav {
     @apply flex flex-row justify-between items-center p-4 border-b border-gray-200;
@@ -94,7 +122,11 @@ form {
     @apply flex flex-row items-center gap-2 border border-gray-200 rounded-lg p-2 shadow-sm;
   }
   .auth-button {
-    @apply primary-gradient rounded-full py-4 px-8 cursor-pointer w-[600px] max-md:w-full text-3xl font-semibold text-white;
+    @apply primary-gradient rounded-full py-4 px-8 cursor-pointer w-[600px] max-md:w-full text-3xl font-bold text-white transition-all duration-300 hover:shadow-lg;
+  }
+
+  .auth-button-new {
+    @apply w-full flex items-center justify-center gap-3 py-4 px-6 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold text-lg rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98];
   }
   .main-section {
     @apply flex flex-col items-center gap-8 pt-12 max-sm:mx-2 mx-15 pb-5;
@@ -107,7 +139,7 @@ form {
   }
 
   .resume-card {
-    @apply flex flex-col gap-8 h-[560px] w-[350px] lg:w-[430px] xl:w-[490px] bg-white rounded-2xl p-4;
+    @apply flex flex-col gap-8 h-[560px] w-[350px] lg:w-[430px] xl:w-[490px] bg-white rounded-2xl p-4 shadow-lg hover:shadow-xl transition-shadow duration-300;
   }
 
   .resume-card-header {
@@ -123,7 +155,7 @@ form {
   }
 
   .score-badge {
-    @apply flex flex-row items-center justify-center py-1 px-2 gap-4 rounded-[96px];
+    @apply flex flex-row items-center justify-center py-1 px-2 gap-4 rounded-[96px] shadow-sm;
   }
 
   .form-div {
@@ -143,7 +175,7 @@ form {
 }
 
 @utility text-gradient {
-  @apply bg-clip-text text-transparent bg-gradient-to-r from-[#AB8C95] via-[#000000] to-[#8E97C5];
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-[#667eea] via-[#764ba2] to-[#f093fb];
 }
 
 @utility gradient-hover {
@@ -151,12 +183,13 @@ form {
 }
 
 @utility primary-gradient {
-  background: linear-gradient(to right, #6366f1, #a855f7);
-  box-shadow: 0px 74px 21px 0px #6678ef00;
+  background: linear-gradient(to right, #667eea, #764ba2);
+  box-shadow: 0px 4px 15px 0px rgba(102, 126, 234, 0.3);
 }
 
 @utility primary-gradient-hover {
-  background: linear-gradient(to right, #4f46e5, #9333ea);
+  background: linear-gradient(to right, #5a67d8, #6b46c1);
+  box-shadow: 0px 6px 20px 0px rgba(102, 126, 234, 0.4);
 }
 
 @utility inset-shadow {

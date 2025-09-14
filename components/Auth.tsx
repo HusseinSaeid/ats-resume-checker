@@ -2,6 +2,7 @@
 import { usePuterStore } from "@/lib/puter";
 import { useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { FaSignInAlt, FaSpinner } from "react-icons/fa";
 
 export default function Auth() {
   const { isLoading, auth } = usePuterStore();
@@ -15,23 +16,17 @@ export default function Auth() {
     }
   }, [auth.isAuthenticated, next, router]);
   return (
-    <div>
+    <div className="w-full">
       {isLoading ? (
-        <button className="auth-button animate-pulse">
-          <p>Signing you in...</p>
+        <button className="auth-button-new animate-pulse">
+          <FaSpinner className="animate-spin text-xl" />
+          <span>Signing you in...</span>
         </button>
       ) : (
-        <>
-          {auth.isAuthenticated ? (
-            <button className="auth-button" onClick={() => auth.signOut()}>
-              <p>Sign Out</p>
-            </button>
-          ) : (
-            <button className="auth-button" onClick={() => auth.signIn()}>
-              <p>Sign In</p>
-            </button>
-          )}
-        </>
+        <button className="auth-button-new" onClick={() => auth.signIn()}>
+          <FaSignInAlt className="text-xl" />
+          <span>Sign In</span>
+        </button>
       )}
     </div>
   );
