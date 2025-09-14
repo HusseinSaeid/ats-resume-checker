@@ -45,5 +45,4 @@ Then open 👉 http://localhost:3000
 - Next.js
 - TypeScript
 - Tailwind CSS
-Puter.js
- – File parsing , integration and AI Api
+- Puter.js
